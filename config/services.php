@@ -30,13 +30,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'elasticsearch' => [
-        'index' => env('ELASTICSEARCH_INDEX'),
-        'host' => env('ELASTICSEARCH_HOST'),
+    'sms' => [
+        'domain' => env('SMS_DOMAIN'),
     ],
 
-    'centrifugo' => [
-        'domain' => env('CENTRIFUGO_DOMAIN'),
-        'auth_api_key' => env('CENTRIFUGO_AUTH_API_KEY'),
+    'email' => [
+        'domain' => env('EMAIL_DOMAIN'),
+    ],
+
+    'telegram' => [
+        'domain' => env('TELEGRAM_DOMAIN'),
     ],
 ];

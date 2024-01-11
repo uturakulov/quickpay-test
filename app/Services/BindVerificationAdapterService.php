@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Adapters\EmailConfirmationCodeAdapter;
-use App\Adapters\SmsConfirmationCodeAdapter;
-use App\Adapters\TelegramConfirmationCodeAdapter;
-use App\Interfaces\ConfirmationAdapterInterface;
 use Exception;
+use App\Adapters\SmsConfirmationCodeAdapter;
+use App\Adapters\EmailConfirmationCodeAdapter;
+use App\Interfaces\ConfirmationAdapterInterface;
 use Illuminate\Contracts\Foundation\Application;
+use App\Adapters\TelegramConfirmationCodeAdapter;
 
 class BindVerificationAdapterService
 {

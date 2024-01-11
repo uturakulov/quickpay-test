@@ -4,6 +4,7 @@ namespace App\Interfaces;
 
 interface ConfirmationAdapterInterface
 {
-    public function sendCode($userId, $code);
+    public function sendCode(int $userId, string $code);
+
     public function generateCode($userId): string;
 }

@@ -2,13 +2,15 @@
 
 namespace App\Adapters;
 
-use App\Interfaces\ConfirmationAdapterInterface;
-use Illuminate\Support\Facades\Cache;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use App\HttpServices\TelegramHttpService;
+use App\Interfaces\ConfirmationAdapterInterface;
 
 class TelegramConfirmationCodeAdapter implements ConfirmationAdapterInterface
 {
-    public function __construct(private TelegramService $telegramService)
+    public function __construct(private TelegramHttpService $telegramService)
     {
     }
 
@@ -21,8 +23,10 @@ class TelegramConfirmationCodeAdapter implements ConfirmationAdapterInterface
         return $code;
     }
 
-    public function sendCode($userId, $code)
+    public function sendCode(int $userId, string $code): void
     {
-        return $this->telegramService->sendCode($userId, $code);
+        $result = DB::select('SELECT telegram_nickname FROM users WHERE id = ?', [$userId]);
+
+        $this->telegramService->sendCode($result[0]->telegram_nickname, $code);
     }
 }

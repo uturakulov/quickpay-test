@@ -2,13 +2,15 @@
 
 namespace App\Adapters;
 
-use App\Interfaces\ConfirmationAdapterInterface;
-use Illuminate\Support\Facades\Cache;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use App\HttpServices\EmailHttpService;
+use App\Interfaces\ConfirmationAdapterInterface;
 
 class EmailConfirmationCodeAdapter implements ConfirmationAdapterInterface
 {
-    public function __construct(private EmailService $emailService)
+    public function __construct(private EmailHttpService $emailService)
     {
     }
 
@@ -21,8 +23,10 @@ class EmailConfirmationCodeAdapter implements ConfirmationAdapterInterface
         return $code;
     }
 
-    public function sendCode($userId, $code)
+    public function sendCode(int $userId, string $code): void
     {
-        return $this->emailService->sendCode($userId, $code);
+        $result = DB::select('SELECT email FROM users WHERE id = ?', [$userId]);
+
+        $this->emailService->sendCode($result[0]->email, $code);
     }
 }

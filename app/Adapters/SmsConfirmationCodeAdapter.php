@@ -2,13 +2,15 @@
 
 namespace App\Adapters;
 
-use App\Interfaces\ConfirmationAdapterInterface;
-use Illuminate\Support\Facades\Cache;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
+use App\HttpServices\SmsHttpService;
+use Illuminate\Support\Facades\Cache;
+use App\Interfaces\ConfirmationAdapterInterface;
 
 class SmsConfirmationCodeAdapter implements ConfirmationAdapterInterface
 {
-    public function __construct(private SmsService $smsService)
+    public function __construct(private SmsHttpService $smsService)
     {
     }
 
@@ -21,8 +23,10 @@ class SmsConfirmationCodeAdapter implements ConfirmationAdapterInterface
         return $code;
     }
 
-    public function sendCode($userId, $code)
+    public function sendCode(int $userId, string $code): void
     {
-        return $this->smsService->sendCode($userId, $code);
+        $result = DB::select('SELECT phone FROM users WHERE id = ?', [$userId]);
+
+        $this->smsService->sendCode($result[0]->phone, $code);
     }
 }

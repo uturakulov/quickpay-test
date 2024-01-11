@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,3 +11,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserSettingsController;
+
+Route::post('request-change', [UserSettingsController::class, 'requestChange']);
+
+Route::post('verify', [UserSettingsController::class, 'verifyCode']);
